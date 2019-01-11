@@ -9,7 +9,7 @@ import itertools
 sumLineStr = r'.*\[SUM\].*?([0-9]+\.[0-9]+)-.*?([0-9]+\.[0-9]+).sec.*?([0-9]+\.[0-9]+.[GMK])bits/sec.*'
 sumLine = re.compile(sumLineStr)
 
-ipLineStr = r'.*\[.*?([0-9]+)\].*?([0-9]+\.[0-9]+)-.*?([0-9]+\.[0-9]+).sec.*?([0-9]+\.[0-9]+.[GMK])Bytes.*?([0-9]+\.?[0-9]+.[GMK])bits/sec.*'
+ipLineStr = r'.*\[.*?([0-9]+)\].*?([0-9]+\.[0-9]+)-.*?([0-9]+\.[0-9]+).sec.*?([0-9]+\.?[0-9]+.[GMK])Bytes.*?([0-9]+\.?[0-9]+.[GMK])bits/sec.*'
 ipLine = re.compile(ipLineStr)
 
 def parseV(s):

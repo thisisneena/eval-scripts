@@ -3,3 +3,8 @@
 *.eps
 *__pycache__*
 .vagrant/
+.DS_Store
+._*
+.vscode/*
+*.out
+*.fct

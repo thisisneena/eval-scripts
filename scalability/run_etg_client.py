@@ -2,9 +2,10 @@
 
 import subprocess as sh
 import argparse
+import time
 
 client_binary = "../fct_scripts/empiricial-traffic-gen/bin/client"
-client_config_params = {"load": "1000000Mbps", "fanout": "1 100", "num_reqs": "100000"}
+client_config_params = {"load": "1000000Mbps", "fanout": "1 100", "num_reqs": "50000"}
 
 
 def run_and_yield(command):
@@ -17,9 +18,21 @@ def run_and_yield(command):
 
 def run_and_print(command):
     out = ""
+    start = time.time()
     for path in run_and_yield(command):
-        print(path.decode('utf-8'))  
+        print("[{0:.4f}s] {1}".format(time.time() - start, path.decode('utf-8')))  
         out += path.decode('utf-8') + "\n" 
+    return out
+
+
+def run_and_collect_flow_completion_dist(command):
+    out = []
+    start = time.time()
+    for path in run_and_yield(command):
+        dur = time.time() - start
+        print("[{0:.4f}s] {1}".format(dur, path.decode('utf-8')))  
+        if "All files received from destination" in path.decode('utf-8'):
+            out.append(dur)
     return out
 
 def port(server_num):
@@ -51,7 +64,7 @@ if __name__ == "__main__":
     parser.add_argument('-config', type=str, dest='config',
                         help='destination for the config file (default: config)', default="config")
     parser.add_argument('-cdf', type=str, dest='cdf',
-                        help='cdf file to use (default: empiricial-traffic-gen/BIG_CDF)', default="empiricial-traffic-gen/BIG_CDF")
+                        help='cdf file to use (default: empiricial-traffic-gen/BIG_CDF)', default="../fct_scripts/empiricial-traffic-gen/BIG_CDF")
     parser.add_argument('-logfile', type=str, dest='logfile',
                         help='logfile prefix (default: etg-log)', default="etg-log")
     args = parser.parse_args()
